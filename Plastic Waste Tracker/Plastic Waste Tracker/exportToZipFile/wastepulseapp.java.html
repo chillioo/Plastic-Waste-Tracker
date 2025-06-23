@@ -1,0 +1,94 @@
+<html>
+<head>
+<title>wastepulseapp.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+wastepulseapp.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Scanner</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">wastepulseapp </span><span class="s2">{</span>
+
+    <span class="s0">public static void </span><span class="s1">main</span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">args</span><span class="s2">) {</span>
+        <span class="s1">Scanner scanner </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Scanner</span><span class="s2">(</span><span class="s1">System</span><span class="s2">.</span><span class="s1">in</span><span class="s2">);</span>
+        <span class="s1">dataprocessor processor </span><span class="s2">= </span><span class="s0">new </span><span class="s1">dataprocessor</span><span class="s2">();</span>
+
+        <span class="s0">while </span><span class="s2">(</span><span class="s0">true</span><span class="s2">) {</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">=== WastePulse Recycling Tracker ===&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;1. Add new waste record manually&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;2. View all records&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;3. View total weight recycled by material&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;4. Load CSV data from file (user-provided)&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;5. Save &amp; Exit&quot;</span><span class="s2">);</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Enter your choice: &quot;</span><span class="s2">);</span>
+            <span class="s1">String choice </span><span class="s2">= </span><span class="s1">scanner</span><span class="s2">.</span><span class="s1">nextLine</span><span class="s2">();</span>
+
+            <span class="s0">switch </span><span class="s2">(</span><span class="s1">choice</span><span class="s2">) {</span>
+                <span class="s0">case </span><span class="s3">&quot;1&quot;</span><span class="s2">:</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Enter date (YYYY-MM-DD): &quot;</span><span class="s2">);</span>
+                        <span class="s1">String date </span><span class="s2">= </span><span class="s1">scanner</span><span class="s2">.</span><span class="s1">nextLine</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Enter material type (e.g., Plastic, Cans, Bottles): &quot;</span><span class="s2">);</span>
+                        <span class="s1">String material </span><span class="s2">= </span><span class="s1">scanner</span><span class="s2">.</span><span class="s1">nextLine</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Enter weight in kilograms (e.g., 3.5): &quot;</span><span class="s2">);</span>
+                        <span class="s0">double </span><span class="s1">weight </span><span class="s2">= </span><span class="s1">Double</span><span class="s2">.</span><span class="s1">parseDouble</span><span class="s2">(</span><span class="s1">scanner</span><span class="s2">.</span><span class="s1">nextLine</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">());</span>
+
+                        <span class="s1">wasterecord record </span><span class="s2">= </span><span class="s0">new </span><span class="s1">wasterecord</span><span class="s2">(</span><span class="s1">date</span><span class="s2">, </span><span class="s1">material</span><span class="s2">, </span><span class="s1">weight</span><span class="s2">);</span>
+                        <span class="s1">processor</span><span class="s2">.</span><span class="s1">addRecord</span><span class="s2">(</span><span class="s1">record</span><span class="s2">);</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Record added successfully.&quot;</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">NumberFormatException e</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Invalid weight input. Please enter a number.&quot;</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+
+                <span class="s0">case </span><span class="s3">&quot;2&quot;</span><span class="s2">:</span>
+                    <span class="s1">processor</span><span class="s2">.</span><span class="s1">displayAll</span><span class="s2">();</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+
+                <span class="s0">case </span><span class="s3">&quot;3&quot;</span><span class="s2">:</span>
+                    <span class="s1">processor</span><span class="s2">.</span><span class="s1">displayTotals</span><span class="s2">();</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+
+                <span class="s0">case </span><span class="s3">&quot;4&quot;</span><span class="s2">:</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">print</span><span class="s2">(</span><span class="s3">&quot;Enter full path to your CSV file: &quot;</span><span class="s2">);</span>
+                    <span class="s1">String filePath </span><span class="s2">= </span><span class="s1">scanner</span><span class="s2">.</span><span class="s1">nextLine</span><span class="s2">();</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s1">processor</span><span class="s2">.</span><span class="s1">loadCSV</span><span class="s2">(</span><span class="s1">filePath</span><span class="s2">);</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;CSV data loaded successfully!&quot;</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IOException e</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Error reading file: &quot; </span><span class="s2">+ </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">());</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">NumberFormatException e</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Invalid number format in CSV.&quot;</span><span class="s2">);</span>
+                    <span class="s2">}</span>
+                    <span class="s0">break</span><span class="s2">;</span>
+
+                <span class="s0">case </span><span class="s3">&quot;5&quot;</span><span class="s2">:</span>
+                    <span class="s0">try </span><span class="s2">{</span>
+                        <span class="s1">processor</span><span class="s2">.</span><span class="s1">saveToFile</span><span class="s2">();</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Data saved to waste_data.txt. Goodbye!&quot;</span><span class="s2">);</span>
+                    <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">IOException e</span><span class="s2">) {</span>
+                        <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Error saving data: &quot; </span><span class="s2">+ </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getMessage</span><span class="s2">());</span>
+                    <span class="s2">}</span>
+                    <span class="s1">scanner</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+                    <span class="s0">return</span><span class="s2">;</span>
+
+                <span class="s0">default</span><span class="s2">:</span>
+                    <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s3">&quot;Invalid choice. Please enter a number from 1 to 5.&quot;</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
