@@ -1,83 +1,113 @@
+import javax.swing.*;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class wastepulseapp {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         dataprocessor processor = new dataprocessor();
 
         while (true) {
-            System.out.println("\n=== WastePulse Recycling Tracker ===");
-            System.out.println("1.\tAdd new waste record manually");
-            System.out.println("2.\tView all records");
-            System.out.println("3.\tSearch records by country");
-            System.out.println("4.\tLoad CSV data from file (user-provided)");
-            System.out.println("5.\tSave & Exit");
-            System.out.print("Enter your choice: ");
-            String choice = scanner.nextLine();
+            String[] home = {
+                    "Start",
+                    "Close App"
+            };
 
-            switch (choice) {
-                case "1":
+            String choice1 = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Welcome! Our app helps you calculate the percentage of Carbon Footprint you've saved based on how much plastic you've recycled",
+                    "WastePulse Recycling Calculator",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    home,
+                    home[0]);
+
+            if (choice1 == null || choice1.equals("Close App")) {
+                return;
+            }
+
+            String[] menu = {
+                    "Add new waste record manually",
+                    "View all waste records",
+                    "Search records by country",
+                    "Load CSV data from file (user-provided)",
+                    "Calculate carbon footprint saved",
+                    "Save & Exit"
+            };
+
+            while (true) {
+                String choice2 = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Select an option:",
+                        "WastePulse Recycling Tracker",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        menu,
+                        menu[0]);
+
+                if (choice2 == null) break;
+
+                if (choice2.equals("Add new waste record manually")) {
                     try {
-                        System.out.print("Enter country name: ");
-                        String country = scanner.nextLine().trim();
+                        String country = JOptionPane.showInputDialog("Enter country name:");
+                        if (country == null) continue;
 
                         String date;
                         while (true) {
-                            System.out.print("Enter date (YYYY-MM-DD): ");
-                            date = scanner.nextLine().trim();
-                            if (dataprocessor.isValidDate(date)) {
+                            date = JOptionPane.showInputDialog("Enter date (YYYY-MM-DD):");
+                            if (date == null) break;
+                            if (dataprocessor.isValidDate(date.trim())) {
                                 break;
                             } else {
-                                System.out.println("Invalid date. Please enter a valid date between 1900-01-01 and 2025-12-31.");
+                                JOptionPane.showMessageDialog(null, "Invalid date. Please enter a valid date between 1900-01-01 and 2025-12-31.");
                             }
                         }
 
-                        System.out.print("Enter weight in kilograms (e.g., 3.5): ");
-                        double weight = Double.parseDouble(scanner.nextLine().trim());
+                        String weightInput = JOptionPane.showInputDialog("Enter weight in kilograms (e.g., 3.5):");
+                        if (weightInput == null) continue;
+                        double weight = Double.parseDouble(weightInput.trim());
 
-                        wasterecord record = new wasterecord(country, date, weight);
+                        wasterecord record = new wasterecord(country.trim(), date.trim(), weight);
                         processor.addRecord(record);
-                        System.out.println("Record added successfully.");
+                        JOptionPane.showMessageDialog(null, "Record added successfully.");
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid weight input. Please enter a number.");
+                        JOptionPane.showMessageDialog(null, "Invalid weight input. Please enter a number.");
                     }
-                    break;
 
-                case "2":
+                } else if (choice2.equals("View all waste records")) {
                     processor.displayAll();
-                    break;
 
-                case "3":
-                    System.out.print("Enter country name to search: ");
-                    String searchCountry = scanner.nextLine().trim();
-                    processor.searchByCountry(searchCountry);
-                    break;
-
-                case "4":
-                    System.out.print("Enter full path to your CSV file: ");
-                    String filePath = scanner.nextLine();
-                    try {
-                        processor.loadCSV(filePath);
-                        System.out.println("CSV data loaded successfully!");
-                    } catch (IOException e) {
-                        System.out.println("Error reading file: " + e.getMessage());
+                } else if (choice2.equals("Search records by country")) {
+                    String searchCountry = JOptionPane.showInputDialog("Enter country name to search:");
+                    if (searchCountry != null) {
+                        processor.searchByCountry(searchCountry.trim());
                     }
-                    break;
 
-                case "5":
+                } else if (choice2.equals("Load CSV data from file (user-provided)")) {
+                    String filePath = JOptionPane.showInputDialog("Enter full path to your CSV file:");
+                    if (filePath != null) {
+                        try {
+                            processor.loadCSV(filePath);
+                            JOptionPane.showMessageDialog(null, "CSV data loaded successfully!");
+                        } catch (IOException e) {
+                            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage());
+                        }
+                    }
+
+                } else if (choice2.equals("Calculate carbon footprint saved")) {
+                    JOptionPane.showMessageDialog(null, "Function is not available yet!");
+
+                } else if (choice2.equals("Save & Exit")) {
                     try {
                         processor.saveToFile();
-                        System.out.println("Data saved to waste_data.txt. Goodbye!");
+                        JOptionPane.showMessageDialog(null, "Data saved to waste_data.txt. Goodbye!");
                     } catch (IOException e) {
-                        System.out.println("Error saving data: " + e.getMessage());
+                        JOptionPane.showMessageDialog(null, "Error saving data: " + e.getMessage());
                     }
-                    scanner.close();
                     return;
 
-                default:
-                    System.out.println("Invalid choice. Please enter a number from 1 to 5.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid choice.");
+                }
             }
         }
     }
