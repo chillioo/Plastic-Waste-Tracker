@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class dataprocessor {
                     String date = year + "-01-01";
                     records.add(new wasterecord(country, date, weight));
                 } catch (NumberFormatException e) {
-                    System.out.println("Skipping invalid line: " + line);
+                    JOptionPane.showMessageDialog(null, "Skipping invalid line: " + line);
                 }
             }
         }
@@ -51,16 +52,18 @@ public class dataprocessor {
 
     public void displayAll() {
         if (records.isEmpty()) {
-            System.out.println("No records to display.");
+            JOptionPane.showMessageDialog(null, "No records to display.");
             return;
         }
 
-        System.out.println("\nCountry                | Date       | Weight (kg)");
-        System.out.println("------------------------+------------+------------");
+        StringBuilder message = new StringBuilder();
+        message.append(String.format("%-22s | %-10s | %10s%n", "Country", "Date", "Weight")); // Optional header
+        message.append("--------------------------------------------------------\n");
 
         for (wasterecord r : records) {
-            System.out.printf("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight());
+            message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
         }
+        JOptionPane.showMessageDialog(null, message.toString());
     }
 
     // Search records by country (case-insensitive)
