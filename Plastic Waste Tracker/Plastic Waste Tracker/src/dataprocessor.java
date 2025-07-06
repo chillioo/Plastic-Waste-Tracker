@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class dataprocessor {
     private List<wasterecord> records = new ArrayList<>();
@@ -62,6 +65,7 @@ public class dataprocessor {
 
         for (wasterecord r : records) {
             message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
+
         }
         JOptionPane.showMessageDialog(null, message.toString());
     }
@@ -102,6 +106,17 @@ public class dataprocessor {
         } catch (Exception e) {
             return false;
         }
+    }
+    public List<wasterecord> getRecords() {
+        return records;
+    }
+    public Map<String, Double> getTotalPlasticByCountry() {
+        Map<String, Double> countryTotals = new HashMap<>();
+        for (wasterecord rec : records) {
+            countryTotals.put(rec.getCountry(),
+                    countryTotals.getOrDefault(rec.getCountry(), 0.0) + rec.getWeight());
+        }
+        return countryTotals;
     }
 }
 
