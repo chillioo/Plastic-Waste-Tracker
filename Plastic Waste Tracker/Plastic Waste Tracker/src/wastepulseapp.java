@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.IOException;
+import java.util.Map;
 
 public class wastepulseapp {
 
@@ -14,7 +15,7 @@ public class wastepulseapp {
 
             String choice1 = (String) JOptionPane.showInputDialog(
                     null,
-                    "Welcome! Our app helps you calculate the percentage of Carbon Footprint you've saved based on how much plastic you've recycled",
+                    "Welcome! Our app helps you calculate the amount of materials you've saved based on how much plastic you've recycled",
                     "WastePulse Recycling Calculator",
                     JOptionPane.PLAIN_MESSAGE,
                     null,
@@ -30,7 +31,7 @@ public class wastepulseapp {
                     "View all waste records",
                     "Search records by country",
                     "Load CSV data from file (user-provided)",
-                    "Calculate carbon footprint saved",
+                    "Calculate amount of materials saved",
                     "Save & Exit"
             };
 
@@ -93,10 +94,85 @@ public class wastepulseapp {
                         }
                     }
 
-                } else if (choice2.equals("Calculate carbon footprint saved")) {
-                    JOptionPane.showMessageDialog(null, "Function is not available yet!");
+                }   else if (choice2.equals("Calculate amount of materials saved")) {
+                String[] calcOptions = { "Show total (all countries)", "Show one country", "Cancel" };
+                String selection = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Choose what to display:",
+                        "Material Savings Options",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        calcOptions,
+                        calcOptions[0]);
 
-                } else if (choice2.equals("Save & Exit")) {
+                if (selection == null || selection.equals("Cancel")) {
+                    continue;
+                }
+
+                if (selection.equals("Show total (all countries)")) {
+                    Map<String, Double> countryTotals = processor.getTotalPlasticByCountry();
+
+                    if (countryTotals.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No records available to calculate savings.");
+                    } else {
+                        StringBuilder sb = new StringBuilder();
+                        double grandTotal = 0.0;
+
+                        for (Map.Entry<String, Double> entry : countryTotals.entrySet()) {
+                            String country = entry.getKey();
+                            double weight = entry.getValue();
+                            grandTotal += weight;
+
+                            MaterialSavingsCalculator calc = new MaterialSavingsCalculator(weight);
+                            sb.append(calc.getSummaryLine(country)).append("\n");
+                            sb.append(calc.toString()).append("\n\n");
+                        }
+
+                        // Show total savings
+                        MaterialSavingsCalculator totalCalc =
+                                new MaterialSavingsCalculator(grandTotal);
+                        sb.append("=== TOTAL (All Countries) ===\n");
+                        sb.append(totalCalc.getSummaryLine("All countries")).append("\n");
+                        sb.append(totalCalc.toString());
+
+                        JTextArea textArea = new JTextArea(sb.toString());
+                        textArea.setEditable(false);
+                        textArea.setCaretPosition(0); // scroll to top
+                        textArea.setLineWrap(true);
+                        textArea.setWrapStyleWord(true);
+
+                        JScrollPane scrollPane = new JScrollPane(textArea);
+                        scrollPane.setPreferredSize(new java.awt.Dimension(600, 400));
+
+                        JOptionPane.showMessageDialog(null, scrollPane, "Material Savings Summary", JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } else if (selection.equals("Show one country")) {
+                    String countryName = JOptionPane.showInputDialog("Enter country name to display:");
+                    if (countryName == null || countryName.trim().isEmpty()) continue;
+
+                    double totalForCountry = 0.0;
+                    for (wasterecord rec : processor.getRecords()) {
+                        if (rec.getCountry().equalsIgnoreCase(countryName.trim())) {
+                            totalForCountry += rec.getWeight();
+                        }
+                    }
+
+                    if (totalForCountry == 0.0) {
+                        JOptionPane.showMessageDialog(null, "No data found for country: " + countryName);
+                    } else {
+                        MaterialSavingsCalculator calc = new MaterialSavingsCalculator(totalForCountry);
+                        String result = calc.getSummaryLine(countryName) + "\n\n" + calc.toString();
+                        JOptionPane.showMessageDialog(null, result);
+                    }
+                }
+            }
+
+
+
+
+            else if (choice2.equals("Save & Exit")) {
                     try {
                         processor.saveToFile();
                         JOptionPane.showMessageDialog(null, "Data saved to waste_data.txt. Goodbye!");
