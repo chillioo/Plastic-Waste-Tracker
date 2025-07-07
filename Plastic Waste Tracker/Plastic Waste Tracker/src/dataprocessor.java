@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,32 +61,49 @@ public class dataprocessor {
         }
 
         StringBuilder message = new StringBuilder();
-        message.append(String.format("%-22s | %-10s | %10s%n", "Country", "Date", "Weight")); // Optional header
+        message.append(String.format("%-22s | %-10s | %10s%n", "Country", "Date", "Weight"));
         message.append("--------------------------------------------------------\n");
 
         for (wasterecord r : records) {
             message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
 
         }
-        JOptionPane.showMessageDialog(null, message.toString());
+        JTextArea textArea = new JTextArea(message.toString());
+        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+        textArea.setEditable(false);
+        textArea.setCaretPosition(0);
+        textArea.setLineWrap(true);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+        JOptionPane.showMessageDialog(
+                null,
+                scrollPane,
+                "Search Result",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Search records by country (case-insensitive)
     public void searchByCountry(String keyword) {
         boolean found = false;
-        System.out.println("\nCountry                | Date       | Weight (kg)");
-        System.out.println("------------------------+------------+------------");
+
+        StringBuilder message = new StringBuilder();
+        message.append(String.format("%-22s | %-15s | %15s%n", "Country", "Date", "Weight"));
+        message.append("--------------------------------------------------------\n");
+
 
         for (wasterecord r : records) {
             if (r.getCountry().toLowerCase().contains(keyword.toLowerCase())) {
-                System.out.printf("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight());
+
+                message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
                 found = true;
             }
         }
 
         if (!found) {
-            System.out.println("No records found for country: " + keyword);
+            message.append(String.format("No records found for country: " + keyword));
         }
+        JOptionPane.showMessageDialog(null, message.toString(), "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
     //Static utility method for validating date format and range
