@@ -13,9 +13,7 @@ public class wastepulseapp {
                     "Start"
             };
 
-            String message = "<html>Welcome!<br>Our app helps you calculate the amount of<br>"
-                    + "CO₂ emissions you've saved based on<br>"
-                    + "how much plastic you've recycled.</html>";
+            String message = "<html>Welcome!<br>Our app helps you calculate the amount of<br>" + "▲ CO₂ emissions saved<br>" + "▲ Energy saved<br>" + "▲ Landfill Space Saved<br>" + "▲ Gasoline Saved<br>" + "you've saved based on how much plastic you've recycled.</html>";
 
             JLabel label = new JLabel(message, gifIcon, JLabel.CENTER);
             label.setHorizontalTextPosition(JLabel.CENTER);
@@ -41,7 +39,7 @@ public class wastepulseapp {
             String[] menu = {
                     "Add new waste records",
                     "View waste records",
-                    "Calculate amount of C02 emissions saved",
+                    "Calculate amount of materials saved",
                     "Save & Exit"
             };
 
@@ -157,7 +155,7 @@ public class wastepulseapp {
 
 
 
-                else if (choice2.equals("Calculate amount of C02 emissions saved")) {
+                else if (choice2.equals("Calculate amount of materials saved")) {
                 String[] calcOptions = { "Show total (all countries)", "Show one country", "Return to Main Menu" };
                 String selection = (String) JOptionPane.showInputDialog(
                         null,
