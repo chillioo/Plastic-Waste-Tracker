@@ -236,7 +236,7 @@ public class wastepulseapp {
 
 
 
-            else if (choice2.equals("Save & Exit")) {
+            else if (choice2.equals("Exit")) {
                     try {
                         processor.saveToFile();
                         JOptionPane.showMessageDialog(null, "Data saved to waste_data.txt. Goodbye!");
