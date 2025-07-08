@@ -205,7 +205,7 @@ public class wastepulseapp {
                         JScrollPane scrollPane = new JScrollPane(textArea);
                         scrollPane.setPreferredSize(new java.awt.Dimension(600, 400));
 
-                        JOptionPane.showMessageDialog(null, scrollPane, "C02 Emission Saving Summary", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, scrollPane, "Amount of Materials Saved Summary", JOptionPane.INFORMATION_MESSAGE);
 
                     }
 
