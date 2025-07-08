@@ -101,7 +101,7 @@ public class dataprocessor {
         }
 
         if (!found) {
-            message.append(String.format("No records found for country: " + keyword));
+            message.append(String.format("Invalid input. Please enter a valid country name. " + keyword));
         }
         JOptionPane.showMessageDialog(null, message.toString(), "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
