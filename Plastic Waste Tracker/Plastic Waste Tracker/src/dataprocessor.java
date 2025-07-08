@@ -101,7 +101,7 @@ public class dataprocessor {
         }
 
         if (!found) {
-            message.append(String.format("Invalid input. Please enter a valid country name. " + keyword));
+            message.append(String.format("Invalid input. Please enter a valid country name. "));
         }
         JOptionPane.showMessageDialog(null, message.toString(), "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
