@@ -1,15 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class dataprocessor {
     private List<wasterecord> records = new ArrayList<>();
 
-    // Load data from CSV file (country,year,plastic_waste)
+    // Load data from CSV file (country, year, plastic_waste)
     public void loadCSV(String filePath) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -35,7 +30,7 @@ public class dataprocessor {
                     String date = year + "-01-01";
                     records.add(new wasterecord(country, date, weight));
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Skipping invalid line: " + line);
+                    System.out.println("⚠️ Skipping invalid line: " + line);
                 }
             }
         }
@@ -56,57 +51,40 @@ public class dataprocessor {
 
     public void displayAll() {
         if (records.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No records to display.");
+            System.out.println("⚠️ No records to display.");
             return;
         }
 
-        StringBuilder message = new StringBuilder();
-        message.append(String.format("%-22s | %-10s | %10s%n", "Country", "Date", "Weight"));
-        message.append("--------------------------------------------------------\n");
+        System.out.printf("%-22s | %-10s | %10s", "Country", "Date", "Weight");
+        System.out.println("--------------------------------------------------------");
 
         for (wasterecord r : records) {
-            message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
-
+            System.out.println("%-22s | %-10s | %10.2f" +
+                    r.getCountry() + r.getDate()+ r.getWeight());
         }
-        JTextArea textArea = new JTextArea(message.toString());
-        textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-        textArea.setEditable(false);
-        textArea.setCaretPosition(0);
-        textArea.setLineWrap(true);
-
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(600, 400));
-        JOptionPane.showMessageDialog(
-                null,
-                scrollPane,
-                "Search Result",
-                JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Search records by country (case-insensitive)
     public void searchByCountry(String keyword) {
         boolean found = false;
 
-        StringBuilder message = new StringBuilder();
-        message.append(String.format("%-22s | %-15s | %15s%n", "Country", "Date", "Weight"));
-        message.append("--------------------------------------------------------\n");
-
+        System.out.printf("%-22s | %-10s | %10s%n", "Country", "Date", "Weight");
+        System.out.println("--------------------------------------------------------");
 
         for (wasterecord r : records) {
             if (r.getCountry().toLowerCase().contains(keyword.toLowerCase())) {
-
-                message.append(String.format("%-22s | %-10s | %10.2f%n", r.getCountry(), r.getDate(), r.getWeight()));
+                System.out.printf("%-22s | %-10s | %10.2f%n",
+                        r.getCountry(), r.getDate(), r.getWeight());
                 found = true;
             }
         }
 
         if (!found) {
-            message.append(String.format("No records found for country: " + keyword));
+            System.out.println("❌ No records found for country: " + keyword);
         }
-        JOptionPane.showMessageDialog(null, message.toString(), "Search Result", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    //Static utility method for validating date format and range
+    // Static utility method for validating date format and range
     public static boolean isValidDate(String dateStr) {
         try {
             String[] parts = dateStr.split("-");
@@ -125,9 +103,11 @@ public class dataprocessor {
             return false;
         }
     }
+
     public List<wasterecord> getRecords() {
         return records;
     }
+
     public Map<String, Double> getTotalPlasticByCountry() {
         Map<String, Double> countryTotals = new HashMap<>();
         for (wasterecord rec : records) {
