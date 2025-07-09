@@ -11,10 +11,11 @@ public class wastepulseapp {
         System.out.println(" Welcome to WastePulse Calculator 🌿");
         System.out.println(" Our app helps calculate your saved:");
         System.out.println(" ▲ CO₂ emissions\n ▲ Energy\n ▲ Landfill Space\n ▲ Gasoline");
+        System.out.println(" Based on plastic waste recycled \n");
         System.out.println("=====================================\n");
 
         while (true) {
-            System.out.println("Type '1' to begin or '0' to quit:");
+            System.out.println("Enter to begin, type '0' to quit:");
             String input = scanner.nextLine();
             if (input.equals("0")) break;
 
