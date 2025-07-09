@@ -38,11 +38,14 @@ public class MaterialSavingsCalculator {
     @Override
     public String toString() {
         return String.format(
-                "Total Plastic: %.2f kg (%.3f tonnes)%n" +
-                        "CO2 Prevented: %.2f kg (%.3f tonnes)%n" +
-                        "Energy Saved: %.2f kWh%n" +
-                        "Landfill Space Saved: %.2f m³%n" +
-                        "Gasoline Saved: %.2f - %.2f liters",
+                "\n========== MATERIAL SAVINGS REPORT ==========\n" +
+                        "Plastic Waste Input:        %,10.2f kg (%.3f tonnes)\n" +
+                        "--------------------------------------------\n" +
+                        "CO₂ Emissions Prevented:    %,10.2f kg (%.3f tonnes)\n" +
+                        "Energy Saved:               %,10.2f kWh\n" +
+                        "Landfill Space Saved:       %,10.2f m³\n" +
+                        "Gasoline Saved (Estimate):  %,10.2f – %,10.2f liters\n" +
+                        "============================================\n",
                 plasticKg, getPlasticTonnes(),
                 getCO2PreventedKg(), getCO2PreventedTonnes(),
                 getEnergySavedKWh(),
@@ -50,17 +53,18 @@ public class MaterialSavingsCalculator {
                 getGasolineSavedLitersMin(), getGasolineSavedLitersMax()
         );
     }
+
     public String getSummaryLine(String label) {
         return String.format(
-                "if %s would recycle their %.2f kg plastic, they would prevent %.2f kg CO\u2082 emissions,  saved %.2f kWh,  " +
-                        " freed %.2f m\u00B3 landfill space and offset %.2f–%.2f litres of gasoline.",
+                "%s could prevent %.2f kg CO\u2082, save %.2f kWh energy, reclaim %.2f m³ of landfill space, " +
+                        "and offset %.2f–%.2f liters of gasoline by recycling %.2f kg of plastic.",
                 label,
-                plasticKg,
                 getCO2PreventedKg(),
                 getEnergySavedKWh(),
                 getLandfillSpaceSavedM3(),
                 getGasolineSavedLitersMin(),
-                getGasolineSavedLitersMax()
+                getGasolineSavedLitersMax(),
+                plasticKg
         );
     }
 }
