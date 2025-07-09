@@ -12,7 +12,7 @@ public class dataprocessor {
 
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
-                    isFirstLine = false; // skip header
+                    isFirstLine = false; // Skip header
                     continue;
                 }
 
@@ -55,12 +55,12 @@ public class dataprocessor {
             return;
         }
 
-        System.out.printf("%-22s | %-10s | %10s", "Country", "Date", "Weight");
-        System.out.println("--------------------------------------------------------");
+        System.out.printf("%-22s | %-12s | %10s%n", "Country", "Date", "Weight (kg)");
+        System.out.println("---------------------------------------------------------------");
 
         for (wasterecord r : records) {
-            System.out.println("%-22s | %-10s | %10.2f" +
-                    r.getCountry() + r.getDate()+ r.getWeight());
+            System.out.printf("%-22s | %-12s | %10.2f%n",
+                    r.getCountry(), r.getDate(), r.getWeight());
         }
     }
 
@@ -68,21 +68,19 @@ public class dataprocessor {
     public void searchByCountry(String keyword) {
         boolean found = false;
 
-        System.out.printf("%-22s | %-10s | %10s%n", "Country", "Date", "Weight");
-        System.out.println("--------------------------------------------------------");
+        System.out.printf("%-22s | %-12s | %10s%n", "Country", "Date", "Weight (kg)");
+        System.out.println("---------------------------------------------------------------");
 
         for (wasterecord r : records) {
             if (r.getCountry().toLowerCase().contains(keyword.toLowerCase())) {
-                System.out.printf("%-22s | %-10s | %10.2f%n",
+                System.out.printf("%-22s | %-12s | %10.2f%n",
                         r.getCountry(), r.getDate(), r.getWeight());
                 found = true;
             }
         }
 
         if (!found) {
-
             System.out.println("❌ No records found for country: " + keyword);
-            message.append(String.format("Invalid input. Please enter a valid country name. "));
         }
     }
 
@@ -119,5 +117,3 @@ public class dataprocessor {
         return countryTotals;
     }
 }
-
-
