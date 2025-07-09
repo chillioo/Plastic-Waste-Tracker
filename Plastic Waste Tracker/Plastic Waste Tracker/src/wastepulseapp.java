@@ -146,6 +146,7 @@ public class wastepulseapp {
                                     System.out.println(calc.toString());
                                 }
 
+
                             }
                             else if (calcChoice.equals("3")) {
                                 break;

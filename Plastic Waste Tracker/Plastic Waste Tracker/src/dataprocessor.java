@@ -80,7 +80,9 @@ public class dataprocessor {
         }
 
         if (!found) {
+
             System.out.println("❌ No records found for country: " + keyword);
+            message.append(String.format("Invalid input. Please enter a valid country name. "));
         }
     }
 
